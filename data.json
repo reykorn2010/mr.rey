@@ -4,6 +4,13 @@
 			"name":"Movies",
 			"videos": [
 				{
+					"description":"Dave Lizewski is an unnoticed high school student and comic book fan who one day decides to become a superhero, even though he has no powers, training or meaningful reason to do so.",
+					"sources":["https://storage.googleapis.com/sixth-cider-313102/QZBROWM3TH/23m_1622946128_8451.mp4"],
+					"subtitle":"2010 - Action , Crime - 117 min	",
+					"thumb":"https://dyn.media.titanbooks.com/ERUz4MK6OCRvvAHqwr4M2vOpgM0=/fit-in/600x600/https://media.titanbooks.com/catalog/products/KickAssGN0.jpg",
+					"title":"Kick-Ass"
+				},
+				{
 					"description":"Following a zombie outbreak in Las Vegas, a group of mercenaries take the ultimate gamble, venturing into the quarantine zone to pull off the greatest heist ever attempted.",
 					"sources":["https://storage.googleapis.com/sixth-cider-313102/HLEA7CSL918L/st23_army-of-the-dead.1622919236.mp4"],
 					"subtitle":"2021 - Action , Horror , Thriller - 148 min	",
