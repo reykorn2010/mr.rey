@@ -4,6 +4,13 @@
 			"name":"Movies",
 			"videos": [
 				{
+					"description":"MMA fighter Cole Young seeks out Earth's greatest champions in order to stand against the enemies of Outworld in a high stakes battle for the universe.",
+					"sources":["https://storage.googleapis.com/sixth-cider-313102/2B9CE_VL17ME/st23_mortal-kombat-hd-720p.1622930712.mp4"],
+					"subtitle":"2021 - Action , Adventure , Fantasy - 110 min	",
+					"thumb":"https://image.tmdb.org/t/p/w185/8yhtzsbBExY8mUct2GOk4LDDuGH.jpg",
+					"title":"Mortal Kombat"
+				},
+				{
 					"description":"Dave Lizewski is an unnoticed high school student and comic book fan who one day decides to become a superhero, even though he has no powers, training or meaningful reason to do so.",
 					"sources":["https://storage.googleapis.com/sixth-cider-313102/QZBROWM3TH/23m_1622946128_8451.mp4"],
 					"subtitle":"2010 - Action , Crime - 117 min	",
@@ -40,7 +47,7 @@
 				},			
 				{
 					"description":"The plot follows H, a cold and mysterious character working at a cash truck company responsible for moving hundreds of millions of dollars around Los Angeles each week.",
-					"sources":["video url here"],
+					"sources":["https://storage.googleapis.com/sixth-cider-313102/ODHYK14JQU72/st23_wrath-of-man.1622919012.mp4	"],
 					"subtitle":"2021 - Action, Thriller - 1h 58min",
 					"thumb":"https://static.gomovies-online.cam/dist/img/HReazA5Z323pbqiPH7545CCYuiDr4NkoNn1LYzMeG_0slkgjZmAxRpQAtHiHo_GCMWu6lablbYPTGhTFRoqysmzgG5PgQvO4Q0jRBNg5l1Ecjrz61Bz6NttvxbocAz4q.jpg",
 					"title":"Wrath of Man"
