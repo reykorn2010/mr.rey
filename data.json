@@ -4,6 +4,13 @@
 			"name":"Movies",
 			"videos": [
 				{
+					"description":"Following a zombie outbreak in Las Vegas, a group of mercenaries take the ultimate gamble, venturing into the quarantine zone to pull off the greatest heist ever attempted.",
+					"sources":["https://storage.googleapis.com/sixth-cider-313102/HLEA7CSL918L/st23_army-of-the-dead.1622919236.mp4"],
+					"subtitle":"2021 - Action , Horror , Thriller - 148 min	",
+					"thumb":"https://image.tmdb.org/t/p/w185/x3taBaWfRzw1NIKhEPpKPwKBAOC.jpg",
+					"title":"Army of the Dead"
+				},
+				{
 					"description":"A group of high school students are forced to play a game of death without knowing who, why or how.",
 					"sources":["https://storage.googleapis.com/sixth-cider-313102/LWAUC2XWVCG7/23m_1622925247_2446.mp4"],
 					"subtitle":"2014 - Comedy , Horror , Mystery , Thriller - 117 min	",
