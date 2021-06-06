@@ -4,6 +4,13 @@
 			"name":"Movies",
 			"videos": [
 				{
+					"description":"A group of high school students are forced to play a game of death without knowing who, why or how.",
+					"sources":["https://storage.googleapis.com/sixth-cider-313102/LWAUC2XWVCG7/23m_1622925247_2446.mp4"],
+					"subtitle":"2014 - Comedy , Horror , Mystery , Thriller - 117 min	",
+					"thumb":"https://image.tmdb.org/t/p/w185/s1AClIF80ozU3ztbmrOG4pDbkaz.jpg",
+					"title":"As the Gods Will"
+				},
+				{
 					"description":"The Warrens investigate a murder that may be linked to a demonic possession.",
 					"sources":["https://streamvid.co/player/t1SGioY0aXo5HGo/"],
 					"subtitle":"2021 - Thriller, Horror, Mystery - 112 min",
