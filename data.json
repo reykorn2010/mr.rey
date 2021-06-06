@@ -4,18 +4,25 @@
 			"name":"Movies",
 			"videos": [
 				{
-					"description":"The plot follows H, a cold and mysterious character working at a cash truck company responsible for moving hundreds of millions of dollars around Los Angeles each week.",
-					"sources":["file://192.168.2.1/ssd/wrath-of-man_360.mp4"],
-					"subtitle":"By Blender Foundation",
-					"thumb":"https://static.gomovies-online.cam/dist/img/HReazA5Z323pbqiPH7545CCYuiDr4NkoNn1LYzMeG_0slkgjZmAxRpQAtHiHo_GCMWu6lablbYPTGhTFRoqysmzgG5PgQvO4Q0jRBNg5l1Ecjrz61Bz6NttvxbocAz4q.jpg",
-					"title":"Wrath of Man"
+					"description":"The Warrens investigate a murder that may be linked to a demonic possession.",
+					"sources":["video url here"],
+					"subtitle":"2021 - Thriller, Horror, Mystery - 112 min",
+					"thumb":"https://static.gomovies-online.cam/dist/img/Fkq9vJtc7wPDqEeWMxH_YzNT28jg94Vj0ZarU_9hZC0WmTk5ELoiMbV7yd2NiyjMVLCY-vO3zzoMfEHdB4dWw8E0AkH75Afc8wg9ezNgxUQ4GjNieAYoIQNmuM4hIXvT.jpg",
+					"title":"The Conjuring: The Devil Made Me Do It"
 				},
 				{
-					"description":"Big Buck Bunny tells the story of a giant rabbit with a heart bigger than himself. When one sunny day three rodents rudely harass him, something snaps... and the rabbit ain't no bunny anymore! In the typical cartoon tradition he prepares the nasty rodents a comical revenge.\n\nLicensed under the Creative Commons Attribution license\nhttps://www.bigbuckbunny.org",
-					"sources":["https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"],
-					"subtitle":"By Blender Foundation",
-					"thumb":"https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/images/BigBuckBunny.jpg",
-					"title":"Big Buck Bunny"
+					"description":"A bystander who intervenes to help a woman being harassed by a group of men becomes the target of a vengeful drug lord.",
+					"sources":["video url here"],
+					"subtitle":"2021 - Action, Thriller, Crime - 92 min",
+					"thumb":"https://static.gomovies-online.cam/dist/img/udUFkfquMydYyfxINq5SE8Cck8zkX6zoDrllCS1OH96I6t7ZO2dQRqQkAdUC6TExI41DTf2Yxbf9qAuFmErXX0py0-sJC5hQFws9lTE8Coxqd-xGBnGf8uoWjsA6_Alk.jpg",
+					"title":"Nobody (2021)"
+				},			
+				{
+					"description":"The plot follows H, a cold and mysterious character working at a cash truck company responsible for moving hundreds of millions of dollars around Los Angeles each week.",
+					"sources":["video url here"],
+					"subtitle":"2021 - Action, Thriller - 1h 58min",
+					"thumb":"https://static.gomovies-online.cam/dist/img/HReazA5Z323pbqiPH7545CCYuiDr4NkoNn1LYzMeG_0slkgjZmAxRpQAtHiHo_GCMWu6lablbYPTGhTFRoqysmzgG5PgQvO4Q0jRBNg5l1Ecjrz61Bz6NttvxbocAz4q.jpg",
+					"title":"Wrath of Man"
 				},
 				{
 					"description":"The first Blender Open Movie from 2006",
