@@ -2,8 +2,10 @@ getgenv().autoKusogDagan = false;
 getgenv().CheckDagan = false;
 getgenv().theFlash = false;
 getgenv().GameName = ''
-local KusogAmbag = game.Players.LocalPlayer.Character.Humanoid.JumpPower
+getgenv().destroyMove = false;
 
+
+local KusogAmbag = game.Players.LocalPlayer.Character.Humanoid.JumpPower
 local HipHeight = game.Players.LocalPlayer.Character.Humanoid.HipHeight
 
 local placeId = game.PlaceId
@@ -21,10 +23,6 @@ end
 spawn(function()
     repeat wait() until game:IsLoaded()
 end)
-
-
-
-
 
 local ui = loadstring(game:HttpGet("https://pastebin.com/raw/zQWg2eeL"))()
 
@@ -291,9 +289,11 @@ if BF then
                 
                 if Ambak == true then
                     game.Players.LocalPlayer.Character.Humanoid.JumpPower = 200
-                    wait(3)
+                    wait(0.5)
+                    print('Ambak: ', Ambak)
                 elseif Ambak == false then
                     game.Players.LocalPlayer.Character.Humanoid.JumpPower = KusogAmbag
+                    print('Ambak: ', Ambak)
                 end
             end
         )
@@ -304,30 +304,34 @@ if BF then
             function(dagan)
 
                 autoKusogDagan = dagan;
-                game.Players.LocalPlayer.Character.Movement:Destroy()
-                checkDagan(dagan)
+
+
+          
+                if dagan == true then
+                    if destroyMove == false then
+                        game.Players.LocalPlayer.Character.Movement:Destroy()
+                        destroyMove = true
+                    end
+                    while dagan == true and autoKusogDagan == true do
+                        game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 310;
+                        
+                        print('dagan: ', dagan, game.Players.LocalPlayer.Character.Humanoid.WalkSpeed)     
+                        wait(0.5);  
+                    end
+                    
+                    
+                elseif dagan == false then
+                    game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 32;
+                    print('dagan: ', dagan, game.Players.LocalPlayer.Character.Humanoid.WalkSpeed)
+                    wait(0.5)
+                    autoKusogDagan = false;
+                end
 
             end
         )
+     
     end)
     
-    spawn(function()
-        function checkDagan(dagan2)
-           
-
-            if dagan2 == true then
-                game.Players.LocalPlayer.Character.Movement:Destroy()
-                game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 300
-                wait(0.5)
-            else  
-                --game.Players.LocalPlayer.Character.Movement:Destroy()
-                game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 32
-                wait(0.5)
-            end
-
-            
-        end    
-    end)
 
 
     spawn(function()
