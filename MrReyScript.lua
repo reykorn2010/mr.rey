@@ -314,7 +314,6 @@ if BF then
                     end
                     while dagan == true and autoKusogDagan == true do
                         game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 310;
-                        
                         print('dagan: ', dagan, game.Players.LocalPlayer.Character.Humanoid.WalkSpeed)     
                         wait(0.5);  
                     end
@@ -330,6 +329,10 @@ if BF then
             end
         )
      
+    end)
+
+    game.Players.LocalPlayer.Character:FindFirstChildOfClass("Humanoid").Died:Connect(function()
+        destroyMove = false
     end)
     
 
