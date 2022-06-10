@@ -4,16 +4,13 @@ getgenv().theFlash = false;
 getgenv().destroyMove = false;
 
 local placeId = game.PlaceId
-if placeId == 2753915549 then
+
+if placeId == 2753915549 then -- Blox Fruits
     BF = true
-    GameName = "Blox Fruits"  
-elseif placeId == 3475397644 or placeId == 6284583030 then
+elseif placeId == 3475397644 then -- Dragon Adventures
     PDA = true 
-    GameName = "Dragon Adventures"   
 else
-    GameName = "Mr.Rey Script"
     GNS = true
-    print("\n game not support")
 end
 spawn(function()
     repeat wait() until game:IsLoaded()
@@ -23,8 +20,6 @@ local KusogAmbag = game.Players.LocalPlayer.Character.Humanoid.JumpPower
 local HipHeight = game.Players.LocalPlayer.Character.Humanoid.HipHeight
 
 local UserName = game.Players.LocalPlayer.Name
-local GameName = game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name
-
 local GameName2 = game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name
 
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/reykorn2010/mr.rey/main/UI-Source.lua"))()
@@ -497,6 +492,10 @@ if GNS then
                 game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 400
                 wait(0.5)
             end 
+
+            if autoKusogDagan == false then
+                game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 32
+            end
 
         end)
     end)
