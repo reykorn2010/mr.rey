@@ -2,10 +2,18 @@ getgenv().autoKusogDagan = false;
 getgenv().CheckDagan = false;
 getgenv().theFlash = false;
 getgenv().destroyMove = false;
+getgenv().maticClick = false;
+getgenv().maticClickLabel = 'FALSE';
+
+
+
+local UserInputService = game:GetService("UserInputService")
+local Heartbeat = game:GetService("RunService").Heartbeat
+local KeyName = "E"
 
 local placeId = game.PlaceId
 
-if placeId == 2753915549 then -- Blox Fruits
+if placeId == 2753915549 or placeId == 4442272183 then -- Blox Fruits
     BF = true
 elseif placeId == 3475397644 then -- Dragon Adventures
     PDA = true 
@@ -287,6 +295,24 @@ if BF then
         end)
     end)
 
+    game.Players.LocalPlayer.Character:FindFirstChildOfClass("Humanoid").Died:Connect(function()
+        destroyMove = false
+    end)
+    
+
+
+    spawn(function()
+        AbilitySection:NewToggle("Lutaw Lutaw", "lutaw2 lang gud.. ", function(lutaw2)
+                if lutaw2 then
+                    game.Players.LocalPlayer.Character.Humanoid.HipHeight = 100
+                    wait(0.5)      
+                else
+                    game.Players.LocalPlayer.Character.Humanoid.HipHeight = 2.708526372909546
+                end
+            end
+        )
+    end)
+
 --ESP Content 
     spawn(function()
         ESPSection:NewToggle("Makita Ngalan", "Makita ang ngalan sa mga player mag dependi ang color sa kalayon sa player", function(KitaNgalan)
@@ -462,6 +488,53 @@ if BF then
         end)
     end)
 
+--Control Content
+
+    spawn(function()
+        ControlsSection:NewLabel("Click E to Start and Stop Auto Click | Status: " ..maticClickLabel)
+    end)
+
+    UserInputService.InputBegan:Connect(function(input, processed)
+        if input.KeyCode.Name == KeyName then
+            if maticClick == false then
+                maticClick = true
+                maticClickLabel = 'TRUE'
+                while maticClick do
+                    mouse1click()
+                    mouse1release() 
+                    Wait(0.1)
+                end
+            end
+            if maticClick == true then
+                maticClick = false
+                maticClickLabel = 'FALSE'
+            end
+
+            
+        end
+    end)
+
+    spawn(function()
+
+        _G.AimbotEnabled = false
+
+        ControlsSection:NewToggle("Matik Target", "Matik target sa kuntra.. ", function(state)
+            if state == true then
+                _G.AimbotEnabled = true
+            elseif state == false then
+                _G.AimbotEnabled = false
+            end
+        end)
+
+        if _G.AimbotEnabled == true then
+            pcall(function()
+                loadstring(game:HttpGet("https://raw.githubusercontent.com/PhoenixAceVFX/Roblox-Scripts/master/Aimbot%20For%20All%20Games.lua", true))()
+             end)
+        end
+
+
+    end)
+
 
 end
 
@@ -485,6 +558,7 @@ if GNS then
         end)
     end)
     spawn(function()
+
         AbilitySection:NewToggle("Kusog Dagan", "Kusog dagan para dli ka ma apsan.. ", function(dagan)
             autoKusogDagan = dagan;
 
@@ -676,76 +750,70 @@ if GNS then
     end)
 
 
+
+
+    ControlsSection:NewButton("ButtonText", "ButtonInfo", function()
+        print(frame.PlayerName.Text)
+    end)
+    
+    ControlsSection:NewToggle("ToggleText", "ToggleInfo", function(state)
+        if state then
+            print("Toggle On")
+        else
+            print("Toggle Off")
+        end
+    end)
+    
+    getgenv().Toggled = false
+    
+    local toggle = ControlsSection:NewToggle("Toggle", "Info", function(state)
+        getgenv().Toggled = state;
+    end)
+    
+    game:GetService("RunService").RenderStepped:Connect(function()
+        if getgenv().Toggled then
+            toggle:UpdateToggle("Toggle On")
+        else
+            toggle:UpdateToggle("Toggle Off")
+        end
+    end)
+    
+    
+    
+    Section:NewTextBox("TextboxText", "TextboxInfo", function(txt)
+        print(txt)
+    end)
+    
+    Section:NewKeybind("KeybindText", "KeybindInfo", Enum.KeyCode.F, function()
+        print("You just clicked the bind")
+    end)
+    
+    Section:NewKeybind("KeybindText", "KeybindInfo", Enum.KeyCode.F, function()
+        Library:ToggleUI()
+    end)
+    Section:NewDropdown("DropdownText", "DropdownInf", {"Option 1", "Option 2", "Option 3"}, function(currentOption)
+        print(currentOption)
+    end)
+    
+    local oldList = {
+      "2019",
+      "2020"
+    }
+    local newList = {
+      "2021",
+      "2022"
+    }
+    local dropdown = Section:NewDropdown("Dropdown","Info", oldList, function()
+    
+    end)
+    Section:NewButton("Update Dropdown", "Refreshes Dropdown", function()
+      dropdown:Refresh(newList)
+    end)
+    Section:NewColorPicker("Color Text", "Color Info", Color3.fromRGB(0,0,0), function(color)
+        print(color)
+        -- Second argument is the default color
+    end)
+    
 end
 
---end PDA
-
-
-
-
-
-
-
-ControlsSection:NewButton("ButtonText", "ButtonInfo", function()
-    print(frame.PlayerName.Text)
-end)
-
-ControlsSection:NewToggle("ToggleText", "ToggleInfo", function(state)
-    if state then
-        print("Toggle On")
-    else
-        print("Toggle Off")
-    end
-end)
-
-getgenv().Toggled = false
-
-local toggle = ControlsSection:NewToggle("Toggle", "Info", function(state)
-    getgenv().Toggled = state;
-end)
-
-game:GetService("RunService").RenderStepped:Connect(function()
-	if getgenv().Toggled then
-		toggle:UpdateToggle("Toggle On")
-	else
-		toggle:UpdateToggle("Toggle Off")
-	end
-end)
-
-
-
-Section:NewTextBox("TextboxText", "TextboxInfo", function(txt)
-	print(txt)
-end)
-
-Section:NewKeybind("KeybindText", "KeybindInfo", Enum.KeyCode.F, function()
-	print("You just clicked the bind")
-end)
-
-Section:NewKeybind("KeybindText", "KeybindInfo", Enum.KeyCode.F, function()
-	Library:ToggleUI()
-end)
-Section:NewDropdown("DropdownText", "DropdownInf", {"Option 1", "Option 2", "Option 3"}, function(currentOption)
-    print(currentOption)
-end)
-
-local oldList = {
-  "2019",
-  "2020"
-}
-local newList = {
-  "2021",
-  "2022"
-}
-local dropdown = Section:NewDropdown("Dropdown","Info", oldList, function()
-
-end)
-Section:NewButton("Update Dropdown", "Refreshes Dropdown", function()
-  dropdown:Refresh(newList)
-end)
-Section:NewColorPicker("Color Text", "Color Info", Color3.fromRGB(0,0,0), function(color)
-    print(color)
-    -- Second argument is the default color
-end)
-
-
+--end GNS
