@@ -89,13 +89,10 @@ local Main = Window:NewTab("Main Menu")
 local WelcomeSection = Main:NewSection("Welcome "..UserName.."!")
 
 local Aimbot = Window:NewTab("Aimbot")
-local AimbotSection = Aimbot:NewSection("Aimbot Player List ")
+
 
 local Ability = Window:NewTab("Ability Hacks")
 local AbilitySection = Ability:NewSection("Change Character Ability")
-
-local ESP = Window:NewTab("ESP Toggles")
-local ESPSection = ESP:NewSection("ESP Toggles List")
 
 local Controls = Window:NewTab("Controls")
 local ControlsSection = Controls:NewSection("Controls")
@@ -521,10 +518,12 @@ end
 
 ------------------------------------------------------------------  Aimbot Content ------------------------------------------------------------------
 
+local EnableAimbotSection = Aimbot:NewSection("Enable or Disale all Aimbots & ESP")
+
 -- Enale AImbot
 
 spawn(function()
-    AimbotSection:NewToggle("Enable or Disale all Aimbots", "If true, All aimbot settings are available.. if False, All aimbot settings are disabled", function(state)
+    EnableAimbotSection:NewToggle("Enable or Disale", "If true, All aimbot settings are available.. if False, All aimbot settings are disabled", function(state)
         if state == true then
             _G.WRDESPEnabled = true
             game.StarterGui:SetCore("SendNotification", {Title="Aimbots are Available"; Text="Mr.Rey Developer"; Duration=10;})
@@ -534,6 +533,8 @@ spawn(function()
         end
     end)
 end)
+
+local AimbotSection = Aimbot:NewSection("Aimbot Player List ")
 
 -- Target Player
 
@@ -579,7 +580,7 @@ spawn(function()
     end)
 end)
 
-
+local ESPSection = Aimbot:NewSection("ESP toggle List ")
 
 
 
