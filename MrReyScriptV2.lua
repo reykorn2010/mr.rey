@@ -9,7 +9,7 @@ getgenv().LupadToggled = false;
 getgenv().GravityValue = 30
 
 
-_G.WRDESPEnabled = true --Enables the ESP (Defaults to true)
+_G.WRDESPEnabled = false --Enables the ESP (Defaults to true)
 _G.WRDESPBoxes = false --Draws boxes around other players (Defaults to true)
 _G.WRDESPTeamColors = true --Distinguish different teams by their team color. If the game sets one. (Defaults to true)
 _G.WRDESPTracers = false --Displays lines leading to other players (Defaults to false)
@@ -520,6 +520,21 @@ end
 
 
 ------------------------------------------------------------------  Aimbot Content ------------------------------------------------------------------
+
+-- Enale AImbot
+
+spawn(function()
+    AimbotSection:NewToggle("Enable or Disale all Aimbots", "If true, All aimbot settings are available.. if False, All aimbot settings are disabled", function(state)
+        if state == true then
+            _G.WRDESPEnabled = true
+            game.StarterGui:SetCore("SendNotification", {Title="Aimbots are Available"; Text="Mr.Rey Developer"; Duration=10;})
+        elseif state == false then
+            _G.WRDESPEnabled = false
+            game.StarterGui:SetCore("SendNotification", {Title="Aimbots are Disabled"; Text="Mr.Rey Developer"; Duration=10;})
+        end
+    end)
+end)
+
 -- Target Player
 
 spawn(function()
