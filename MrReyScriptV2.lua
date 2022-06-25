@@ -6,8 +6,12 @@ getgenv().maticClick = false;
 getgenv().maticClickLabel = 'FALSE';
 getgenv().aimbotDown = false;
 getgenv().LupadToggled = false;
-getgenv().GravityValue = 30
-
+getgenv().DefaultGravity = game.workspace.Gravity
+getgenv().DefaultLutaw2 = game.Players.LocalPlayer.Character.Humanoid.HipHeight
+getgenv().DefaultKusogDagan = game.Players.LocalPlayer.Character.Humanoid.WalkSpeed
+getgenv().DefaultKusogAmbak = game.Players.LocalPlayer.Character.Humanoid.JumpPower
+getgenv().gun = nil
+getgenv().module = nil
 
 _G.WRDESPEnabled = false --Enables the ESP (Defaults to true)
 _G.WRDESPBoxes = false --Draws boxes around other players (Defaults to true)
@@ -15,7 +19,7 @@ _G.WRDESPTeamColors = true --Distinguish different teams by their team color. If
 _G.WRDESPTracers = false --Displays lines leading to other players (Defaults to false)
 _G.WRDESPNames = false --Displays the names of the players within the ESP box (Defaults to true)
 
-
+_G.WRDAimbotBypass = true
 
 
 
@@ -25,7 +29,7 @@ _G.WRDESPNames = false --Displays the names of the players within the ESP box (D
 
 local UserInputService = game:GetService("UserInputService")
 local Heartbeat = game:GetService("RunService").Heartbeat
-local KeyName = "E"
+local KeyName = "P"
 
 
 local placeId = game.PlaceId
@@ -44,7 +48,6 @@ elseif placeId ==  606849621 then -- Jailbreak [TRADING!]
 
 else
     GameNotSupported = true
-
 end
 spawn(function()
     repeat wait() until game:IsLoaded()
@@ -67,10 +70,10 @@ _G.TeamCheck = false
         autoKusogDagan = false;
         CheckDagan = false;
         theFlash = false;
-        maticClick = true;
+        maticClick = false;
         aimbotDown = false;
         game.Players.LocalPlayer.Character.Humanoid.HipHeight = 2.708526372909546
-        --flying = false
+        flying = false
     end)
 
 local KusogAmbag = game.Players.LocalPlayer.Character.Humanoid.JumpPower
@@ -82,11 +85,24 @@ local DefaultKusogDagan = game.Players.LocalPlayer.Character.Humanoid.WalkSpeed;
 local UserName = game.Players.LocalPlayer.Name
 local GameName2 = game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name
 
+
+
+
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/reykorn2010/mr.rey/main/UI-Source.lua"))()
 local Window = Library.CreateLib("Mr.Rey Hub ", "DarkTheme")
 
 local Main = Window:NewTab("Main Menu")
 local WelcomeSection = Main:NewSection("Welcome "..UserName.."!")
+
+--155615604 Prison Life
+if placeId == 155615604 then
+    getgenv().Weapons = Window:NewTab("Weapons")
+    getgenv().WeaponSection = Weapons:NewSection("Weapons and Ability")
+end
+
+
+
+
 
 local Aimbot = Window:NewTab("Aimbot")
 
@@ -98,192 +114,259 @@ local Controls = Window:NewTab("Controls")
 local ControlsSection = Controls:NewSection("Controls")
 
 
+local GameSettings = Window:NewTab("Settings")
+local GameSettingsSection = GameSettings:NewSection("Graphics Settings")
+
+
+
+
+
 --Main Content
 WelcomeSection:NewLabel("Game Name: "..GameName2)
 WelcomeSection:NewLabel("Game ID: "..game.PlaceId)
 
 
 
+------------------------------------------------------------------  Weapons Content ------------------------------------------------------------------
+--155615604 Prison Life
+if placeId == 155615604 then  
 
+    spawn(function()
+        WeaponSection:NewDropdown("Select Gun", "Gives The localplayer a gun", {"M9", "Remington 870", "AK-47", "M4A1"}, function(v)
+            gun = v
+            local A_1 = game:GetService("Workspace")["Prison_ITEMS"].giver[v].ITEMPICKUP
+            local Event = game:GetService("Workspace").Remote.ItemHandler
+            Event:InvokeServer(A_1)
+            game.StarterGui:SetCore("SendNotification", {Title="Gun "..gun.." is selected"; Text="Mr.Rey Developer"; Duration=10;})
+        end)
+    end)
 
+    spawn(function()
+        WeaponSection:NewToggle("Gun mod OP (Select Gun First)", "Makes the gun op", function(v)
 
+            if v then
+        
+                module = require(game:GetService("Players").LocalPlayer.Character[gun].GunStates)
+                if module ~= nil then
+                    module["MaxAmmo"] = math.huge
+                    module["CurrentAmmo"] = math.huge
+                    module["StoredAmmo"] = math.huge
+                    module["FireRate"] = 0.5
+                    module["Spread"] = 0
+                    module["Range"] = math.huge
+                    module["Bullets"] = 10
+                    module["ReloadTime"] = 0.0000000001
+                    module["AutoFire"] = true
+                end
+                game.StarterGui:SetCore("SendNotification", {Title="OverPower is selected"; Text="Mr.Rey Developer"; Duration=10;})
+            else
+                module = nil
+                game.StarterGui:SetCore("SendNotification", {Title="OverPower is Disable"; Text="Mr.Rey Developer"; Duration=10;})
+            end
+
+        end)
+    end)
+
+end
 
 
 
 
 ------------------------------------------------------------------  Ability Content ------------------------------------------------------------------
 
--- kusog Ambak
-    spawn(function()
-        AbilitySection:NewToggle("Kusog Ambak", "Kusog ambak para dali ra maka kat-kat.. ", function(state)
-            if state == true then
-                game.Players.LocalPlayer.Character.Humanoid.JumpPower = 200
-                wait(0.5)
-                game.StarterGui:SetCore("SendNotification", {Title="Kusog Ambak is On"; Text="Mr.Rey Developer"; Duration=10;})
-            elseif state == false then
-                game.Players.LocalPlayer.Character.Humanoid.JumpPower = KusogAmbag
-                game:GetService("StarterGui"):SetCore("SendNotification",{
-                    Title = "Mr.Rey Developer";
-                    Text = "Kusog Ambak is :"..state..".";
-                    Duration = 10;
-                    game.StarterGui:SetCore("SendNotification", {Title="Kusog Ambak is OFF"; Text="Mr.Rey Developer"; Duration=10;})
-                })
-            end
-        end)
-    end)
+-- Lupad2
+    if BloxFruits or AnimeFightingSimulator or DragonAdventures then 
+        spawn(function()
 
+
+
+            --Fly()
+
+            AbilitySection:NewToggle("Superman (Lupad Lupad)", "Lupad Lupad lang gud.. ", function(Lupad)
+
+
+                    if Lupad then
+                        flying = true 
+
+
+            repeat wait() 
+            until game.Players.LocalPlayer and game.Players.LocalPlayer.Character and game.Players.LocalPlayer.Character:findFirstChild("Head") and game.Players.LocalPlayer.Character:findFirstChild("Humanoid") 
+            local mouse = game.Players.LocalPlayer:GetMouse() 
+            repeat wait() until mouse
+            local plr = game.Players.LocalPlayer 
+            local torso = plr.Character.Head 
+            local flying = false
+            local deb = true 
+            local ctrl = {f = 0, b = 0, l = 0, r = 0} 
+            local lastctrl = {f = 0, b = 0, l = 0, r = 0} 
+            local maxspeed = 400 
+            local speed = 5000 
+            
+            function Fly() 
+                local bg = Instance.new("BodyGyro", torso) 
+                bg.P = 9e4 
+                bg.maxTorque = Vector3.new(9e9, 9e9, 9e9) 
+                bg.cframe = torso.CFrame 
+                local bv = Instance.new("BodyVelocity", torso) 
+                bv.velocity = Vector3.new(0,0.1,0) 
+                bv.maxForce = Vector3.new(9e9, 9e9, 9e9) 
+                repeat wait() 
+                plr.Character.Humanoid.PlatformStand = true 
+                if ctrl.l + ctrl.r ~= 0 or ctrl.f + ctrl.b ~= 0 then 
+                    speed = speed+.5+(speed/maxspeed) 
+                    if speed > maxspeed then 
+                        speed = maxspeed 
+                    end 
+                elseif not (ctrl.l + ctrl.r ~= 0 or ctrl.f + ctrl.b ~= 0) and speed ~= 0 then 
+                    speed = speed-1 
+                        if speed < 0 then 
+                            speed = 0 
+                        end 
+                end 
+                if (ctrl.l + ctrl.r) ~= 0 or (ctrl.f + ctrl.b) ~= 0 then 
+                bv.velocity = ((game.Workspace.CurrentCamera.CoordinateFrame.lookVector * (ctrl.f+ctrl.b)) + ((game.Workspace.CurrentCamera.CoordinateFrame * CFrame.new(ctrl.l+ctrl.r,(ctrl.f+ctrl.b)*.2,0).p) - game.Workspace.CurrentCamera.CoordinateFrame.p))*speed 
+                lastctrl = {f = ctrl.f, b = ctrl.b, l = ctrl.l, r = ctrl.r} 
+            elseif (ctrl.l + ctrl.r) == 0 and (ctrl.f + ctrl.b) == 0 and speed ~= 0 then 
+            bv.velocity = ((game.Workspace.CurrentCamera.CoordinateFrame.lookVector * (lastctrl.f+lastctrl.b)) + ((game.Workspace.CurrentCamera.CoordinateFrame * CFrame.new(lastctrl.l+lastctrl.r,(lastctrl.f+lastctrl.b)*.2,0).p) - game.Workspace.CurrentCamera.CoordinateFrame.p))*speed 
+            else 
+            bv.velocity = Vector3.new(0,0.1,0) 
+            end 
+            bg.cframe = game.Workspace.CurrentCamera.CoordinateFrame * CFrame.Angles(-math.rad((ctrl.f+ctrl.b)*50*speed/maxspeed),0,0) 
+            until not flying 
+            ctrl = {f = 0, b = 0, l = 0, r = 0} 
+            lastctrl = {f = 0, b = 0, l = 0, r = 0} 
+            speed = 0 
+            bg:Destroy() 
+            bv:Destroy() 
+            plr.Character.Humanoid.PlatformStand = false 
+            end 
+            
+            mouse.KeyDown:connect(function(key) 
+                if key:lower() == "w" then 
+                    ctrl.f = 1 
+                elseif key:lower() == "s" then 
+                    ctrl.b = -1 
+                elseif key:lower() == "a" then 
+                    ctrl.l = -1 
+                elseif key:lower() == "d" then 
+                    ctrl.r = 1 
+                end 
+            end) 
+            mouse.KeyUp:connect(function(key) 
+                if key:lower() == "w" then 
+                    ctrl.f = 0 
+                elseif key:lower() == "s" then 
+                    ctrl.b = 0 
+                elseif key:lower() == "a" then 
+                    ctrl.l = 0 
+                elseif key:lower() == "d" then 
+                    ctrl.r = 0 
+                end 
+            end)
+
+
+
+
+
+
+                        Fly()       
+                        game.StarterGui:SetCore("SendNotification", {Title="Lupad Lupad is ON"; Text="Mr.Rey Developer"; Duration=10;})    
+                    else
+                        flying = false
+                        game.StarterGui:SetCore("SendNotification", {Title="Lupad Lupad is OFF"; Text="Mr.Rey Developer"; Duration=10;})   
+                    end
+                end
+            )
+        end)
+    end
 
 -- Lutaw Lutaw
-    spawn(function()
-        AbilitySection:NewToggle("Lutaw Lutaw", "lutaw2 lang gud.. ", function(lutaw2)
-                if lutaw2 then
-                    game.Players.LocalPlayer.Character.Humanoid.HipHeight = 30
-                    wait(0.5)     
-                    game.StarterGui:SetCore("SendNotification", {Title="Lutaw Lutaw is On"; Text="Mr.Rey Developer"; Duration=10;})
-                else
-                    game.Players.LocalPlayer.Character.Humanoid.HipHeight = 2.708526372909546
-                    game.StarterGui:SetCore("SendNotification", {Title="Lutaw Lutaw is OFF"; Text="Mr.Rey Developer"; Duration=10;})
-                end
-            end
-        )
+spawn(function()
+
+    AbilitySection:NewSlider("Lutaw Lutaw", "lutaw2 lang gud..", 200, DefaultLutaw2, function(v)
+        game.Players.LocalPlayer.Character.Humanoid.HipHeight = v;
+        --wait(0.5);
     end)
 
+end)
 
 -- Kusog Dagan
-if BloxFruits then 
+
+if AnimeFightingSimulator then 
     spawn(function()
         AbilitySection:NewToggle("Kusog Dagan", "Kusog dagan para dli ka ma apsan.. ", function(dagan)
             autoKusogDagan = dagan;
         
             if dagan == true then
-                if destroyMove == false then
-                    game.Players.LocalPlayer.Character.Movement:Destroy()
-                    destroyMove = true
-                    
-                end
+                game.StarterGui:SetCore("SendNotification", {Title="Kusog Dagan is ON"; Text="Mr.Rey Developer"; Duration=10;})  
                 while dagan == true and autoKusogDagan == true do
                     game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 400;   
                     wait(0.5);
-                    game.StarterGui:SetCore("SendNotification", {Title="Kusog Dagan is ON"; Text="Mr.Rey Developer"; Duration=10;})
                 end
             elseif dagan == false then
-                game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 32;
+                game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = DefaultKusogDagan;
                 wait(0.5)
                 autoKusogDagan = false;
-                game.StarterGui:SetCore("SendNotification", {Title="Kusog Dagan is OFF"; Text="Mr.Rey Developer"; Duration=10;})
+                game.StarterGui:SetCore("SendNotification", {Title="Kusog Dagan is OFF"; Text="Mr.Rey Developer"; Duration=10;})  
             end
         end)
     end)
-end
 
--- Lupad2
-if BloxFruits or AnimeFightingSimulator or DragonAdventures then 
+elseif DragonAdventures then
+
     spawn(function()
+        AbilitySection:NewToggle("Kusog Dagan", "Kusog dagan para dli ka ma apsan.. ", function(dagan)
+            autoKusogDagan = dagan;
+            game.StarterGui:SetCore("SendNotification", {Title="Kusog Dagan is ON"; Text="Mr.Rey Developer"; Duration=10;})  
+            while autoKusogDagan == true do
+                game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 400
+                wait(0.5)
+            end 
 
-        repeat wait() 
-        until game.Players.LocalPlayer and game.Players.LocalPlayer.Character and game.Players.LocalPlayer.Character:findFirstChild("Head") and game.Players.LocalPlayer.Character:findFirstChild("Humanoid") 
-        local mouse = game.Players.LocalPlayer:GetMouse() 
-        repeat wait() until mouse
-        local plr = game.Players.LocalPlayer 
-        local torso = plr.Character.Head 
-        local flying = false
-        local deb = true 
-        local ctrl = {f = 0, b = 0, l = 0, r = 0} 
-        local lastctrl = {f = 0, b = 0, l = 0, r = 0} 
-        local maxspeed = 400 
-        local speed = 5000 
-        
-        function Fly() 
-            local bg = Instance.new("BodyGyro", torso) 
-            bg.P = 9e4 
-            bg.maxTorque = Vector3.new(9e9, 9e9, 9e9) 
-            bg.cframe = torso.CFrame 
-            local bv = Instance.new("BodyVelocity", torso) 
-            bv.velocity = Vector3.new(0,0.1,0) 
-            bv.maxForce = Vector3.new(9e9, 9e9, 9e9) 
-            repeat wait() 
-            plr.Character.Humanoid.PlatformStand = true 
-            if ctrl.l + ctrl.r ~= 0 or ctrl.f + ctrl.b ~= 0 then 
-                speed = speed+.5+(speed/maxspeed) 
-                if speed > maxspeed then 
-                    speed = maxspeed 
-                end 
-            elseif not (ctrl.l + ctrl.r ~= 0 or ctrl.f + ctrl.b ~= 0) and speed ~= 0 then 
-                speed = speed-1 
-                    if speed < 0 then 
-                        speed = 0 
-                    end 
-            end 
-            if (ctrl.l + ctrl.r) ~= 0 or (ctrl.f + ctrl.b) ~= 0 then 
-            bv.velocity = ((game.Workspace.CurrentCamera.CoordinateFrame.lookVector * (ctrl.f+ctrl.b)) + ((game.Workspace.CurrentCamera.CoordinateFrame * CFrame.new(ctrl.l+ctrl.r,(ctrl.f+ctrl.b)*.2,0).p) - game.Workspace.CurrentCamera.CoordinateFrame.p))*speed 
-            lastctrl = {f = ctrl.f, b = ctrl.b, l = ctrl.l, r = ctrl.r} 
-        elseif (ctrl.l + ctrl.r) == 0 and (ctrl.f + ctrl.b) == 0 and speed ~= 0 then 
-        bv.velocity = ((game.Workspace.CurrentCamera.CoordinateFrame.lookVector * (lastctrl.f+lastctrl.b)) + ((game.Workspace.CurrentCamera.CoordinateFrame * CFrame.new(lastctrl.l+lastctrl.r,(lastctrl.f+lastctrl.b)*.2,0).p) - game.Workspace.CurrentCamera.CoordinateFrame.p))*speed 
-        else 
-        bv.velocity = Vector3.new(0,0.1,0) 
-        end 
-        bg.cframe = game.Workspace.CurrentCamera.CoordinateFrame * CFrame.Angles(-math.rad((ctrl.f+ctrl.b)*50*speed/maxspeed),0,0) 
-        until not flying 
-        ctrl = {f = 0, b = 0, l = 0, r = 0} 
-        lastctrl = {f = 0, b = 0, l = 0, r = 0} 
-        speed = 0 
-        bg:Destroy() 
-        bv:Destroy() 
-        plr.Character.Humanoid.PlatformStand = false 
-        end 
-        
-        mouse.KeyDown:connect(function(key) 
-            if key:lower() == "w" then 
-                ctrl.f = 1 
-            elseif key:lower() == "s" then 
-                ctrl.b = -1 
-            elseif key:lower() == "a" then 
-                ctrl.l = -1 
-            elseif key:lower() == "d" then 
-                ctrl.r = 1 
-            end 
-        end) 
-        mouse.KeyUp:connect(function(key) 
-            if key:lower() == "w" then 
-                ctrl.f = 0 
-            elseif key:lower() == "s" then 
-                ctrl.b = 0 
-            elseif key:lower() == "a" then 
-                ctrl.l = 0 
-            elseif key:lower() == "d" then 
-                ctrl.r = 0 
-            end 
         end)
+    end) 
 
-        --Fly()
+elseif BloxFruits then
 
-        AbilitySection:NewToggle("Superman (Lupad Lupad)", "Lupad Lupad lang gud.. ", function(Lupad)
-
-
-                if Lupad then
-                    flying = true 
-                    Fly()       
-                    game.StarterGui:SetCore("SendNotification", {Title="Lupad Lupad is ON"; Text="Mr.Rey Developer"; Duration=10;})    
-                else
-                    flying = false
-                    game.StarterGui:SetCore("SendNotification", {Title="Lupad Lupad is OFF"; Text="Mr.Rey Developer"; Duration=10;})   
-                end
+    spawn(function()
+        AbilitySection:NewSlider("Kusog Dagan", "Changes The WalkSpeed", 500, DefaultKusogDagan, function(v) -- 500 (MaxValue) | 0 (MinValue)
+            if destroyMove == false then
+                game.Players.LocalPlayer.Character.Movement:Destroy()
+                destroyMove = true
             end
-        )
+            autoKusogDagan = true;
+            game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = v;
+            --wait(0.5);
+        end)
     end)
+
+else
+    spawn(function()
+        AbilitySection:NewSlider("Kusog Dagan", "Changes The WalkSpeed", 500, DefaultKusogDagan, function(v) -- 500 (MaxValue) | 0 (MinValue)
+            autoKusogDagan = true;
+            game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = v;
+            --wait(0.5);
+        end)
+    end)
+    
+
 end
+
+-- kusog Ambak
+spawn(function()
+    AbilitySection:NewSlider("Kusog Ambak", "Changes the JumpPower", 500, DefaultKusogAmbak, function(v) -- 500 (MaxValue) | 0 (MinValue)
+        game.Players.LocalPlayer.Character.Humanoid.JumpPower = v
+        --wait(1)
+    end)
+end)
+
+
+
 
 -- Gravity
     spawn(function()
-        AbilitySection:NewToggle("Gravity", "Kusog ambak dugay tugpa.. ", function(Gravity)
-
-            if Gravity == true then
-                game.workspace.Gravity = GravityValue;
-                game.StarterGui:SetCore("SendNotification", {Title="Low Gravity"; Text="Mr.Rey Developer"; Duration=10;})
-            else
-                game.workspace.Gravity = 196.2;
-                game.StarterGui:SetCore("SendNotification", {Title="Normal Gravity"; Text="Mr.Rey Developer"; Duration=10;})
-            end
+        AbilitySection:NewSlider("Gravity", "Kusog ambak dugay tugpa.. ", 0, DefaultGravity, function(v) -- 500 (MaxValue) | 0 (MinValue)
+            game.workspace.Gravity = v;
         end)
     end)
 
@@ -342,72 +425,12 @@ end
 
 --------------------------- Extended ---------------------------------------
 
--- kusog dagan para AnimeFightingSimulator
-if AnimeFightingSimulator then 
-    spawn(function()
-        AbilitySection:NewToggle("Kusog Dagan", "Kusog dagan para dli ka ma apsan.. ", function(dagan)
-            autoKusogDagan = dagan;
-        
-            if dagan == true then
-                game.StarterGui:SetCore("SendNotification", {Title="Kusog Dagan is ON"; Text="Mr.Rey Developer"; Duration=10;})  
-                while dagan == true and autoKusogDagan == true do
-                    game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 400;   
-                    wait(0.5);
-                end
-            elseif dagan == false then
-                game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = DefaultKusogDagan;
-                wait(0.5)
-                autoKusogDagan = false;
-                game.StarterGui:SetCore("SendNotification", {Title="Kusog Dagan is OFF"; Text="Mr.Rey Developer"; Duration=10;})  
-            end
-        end)
-    end)
-end
-
--- kusog dagan para DragonAdventures
-if DragonAdventures then
-
-    spawn(function()
-        AbilitySection:NewToggle("Kusog Dagan", "Kusog dagan para dli ka ma apsan.. ", function(dagan)
-            autoKusogDagan = dagan;
-            game.StarterGui:SetCore("SendNotification", {Title="Kusog Dagan is ON"; Text="Mr.Rey Developer"; Duration=10;})  
-            while autoKusogDagan == true do
-                game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 400
-                wait(0.5)
-            end 
-
-        end)
-    end) 
-
-end
-
-
-
 
 
 
 
 
 if GameNotSupported then
-
-
-    spawn(function()
-        AbilitySection:NewToggle("Kusog Dagan", "Kusog dagan para dli ka ma apsan.. ", function(dagan)
-            autoKusogDagan = dagan;
-        
-            if dagan == true then
-                while dagan == true and autoKusogDagan == true do
-                    game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 400;   
-                    wait(0.5);
-                end
-            elseif dagan == false then
-                game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = DefaultKusogDagan;
-                wait(0.5)
-                autoKusogDagan = false;
-            end
-        end)
-    end)
-
 
     spawn(function()
 
@@ -554,7 +577,7 @@ end)
 -- Auto mouse move
 
 spawn(function()
-    AimbotSection:NewToggle("Auto Mouse Move", "If true, Simulates mouse movement. Its as if you actually moved your mouse onto the player, meaning this is harder to detect. If false, Will use camera manipulation. ", function(state)
+    AimbotSection:NewToggle("Auto Aim Player Head when Holding Right CLick", "If true, Simulates mouse movement. Its as if you actually moved your mouse onto the player, meaning this is harder to detect. If false, Will use camera manipulation. ", function(state)
         if state == true then
             _G.WRDAimbotBypass = false
             game.StarterGui:SetCore("SendNotification", {Title="Mouse Aim"; Text="Mr.Rey Developer"; Duration=10;})
@@ -648,7 +671,7 @@ local ESPSection = Aimbot:NewSection("ESP toggle List ")
 
     -- Auto Click
     spawn(function()
-        ControlsSection:NewLabel("Click E to Start and Stop Auto Click Mouse")
+        ControlsSection:NewLabel("Click P to Start and Stop Auto Click Mouse")
     end)
 
     UserInputService.InputBegan:Connect(function(input, processed)
@@ -657,18 +680,18 @@ local ESPSection = Aimbot:NewSection("ESP toggle List ")
                 maticClick = true
                 maticClickLabel = 'TRUE'
 
-                game.StarterGui:SetCore("SendNotification", {Title="Mr.Rey Developer"; Text="Matik click mouse kay aktibo, e click ang E balik para mo hunong tuplok.. STATUS:"..tostring(maticClick).."."; Duration=10;})  
+                game.StarterGui:SetCore("SendNotification", {Title="Mr.Rey Developer"; Text="Matik click mouse kay aktibo, e click ang L balik para mo hunong tuplok.. STATUS:"..tostring(maticClick).."."; Duration=10;})  
 
                 while maticClick do
                     mouse1click()
                     mouse1release() 
-                    Wait(0.1)
+                    Wait(0.0001)
                 end
             end
             if maticClick == true then
                 maticClick = false
                 maticClickLabel = 'FALSE'
-                game.StarterGui:SetCore("SendNotification", {Title="Mr.Rey Developer"; Text="Matik click mouse kay di aktibo, e click ang E balik para mo balik tuplok.. STATUS:"..tostring(maticClick).."."; Duration=10;}) 
+                game.StarterGui:SetCore("SendNotification", {Title="Mr.Rey Developer"; Text="Matik click mouse kay di aktibo, e click ang L balik para mo balik tuplok.. STATUS:"..tostring(maticClick).."."; Duration=10;}) 
             end
 
             
@@ -695,6 +718,15 @@ local ESPSection = Aimbot:NewSection("ESP toggle List ")
             end
         end)
     end)
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1131,7 +1163,6 @@ end
 
 
 end)
-
 
 
 
