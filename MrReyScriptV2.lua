@@ -1,3 +1,33 @@
+local UserInputService = game:GetService("UserInputService")
+local Heartbeat = game:GetService("RunService").Heartbeat
+local KeyName = "P"
+
+
+local placeId = game.PlaceId
+
+if placeId == 2753915549 or placeId == 4442272183 or placeId == 7449423635 then -- Blox Fruits
+    BloxFruits = true 
+elseif placeId == 3475397644 then -- Dragon Adventures
+    DragonAdventures = true 
+elseif placeId ==  4042427666 then -- [DIMENSION 6 👹] Anime Fighting Simulator
+    AnimeFightingSimulator = true 
+elseif placeId ==  606849621 then -- Jailbreak [TRADING!]
+    Jailbreak = true
+elseif placeId ==  155615604 then -- Prison Life
+    PrisonLife = true
+else
+    GameNotSupported = true
+end
+
+---- Blox Fruits World
+if placeId == 2753915549 then
+    OldWorld = true
+elseif placeId == 4442272183 then
+    NewWorld = true
+elseif placeId == 7449423635 then
+    ThreeWorld = true
+end
+
 getgenv().autoKusogDagan = false;
 getgenv().CheckDagan = false;
 getgenv().theFlash = false;
@@ -10,6 +40,7 @@ getgenv().DefaultGravity = game.workspace.Gravity
 getgenv().DefaultLutaw2 = game.Players.LocalPlayer.Character.Humanoid.HipHeight
 getgenv().DefaultKusogDagan = game.Players.LocalPlayer.Character.Humanoid.WalkSpeed
 getgenv().DefaultKusogAmbak = game.Players.LocalPlayer.Character.Humanoid.JumpPower
+getgenv().DefaultHealth = game.Players.LocalPlayer.Character.Humanoid.MaxHealth
 getgenv().gun = nil
 getgenv().module = nil
 
@@ -22,36 +53,9 @@ _G.WRDESPNames = false --Displays the names of the players within the ESP box (D
 _G.WRDAimbotBypass = true
 
 
+if not game:IsLoaded() then game.Loaded:Wait() end
 
 
-
-
-
-local UserInputService = game:GetService("UserInputService")
-local Heartbeat = game:GetService("RunService").Heartbeat
-local KeyName = "P"
-
-
-local placeId = game.PlaceId
-
-if placeId == 2753915549 or placeId == 4442272183 then -- Blox Fruits
-    BloxFruits = true
-    
-elseif placeId == 3475397644 then -- Dragon Adventures
-    DragonAdventures = true 
-
-elseif placeId ==  4042427666 then -- [DIMENSION 6 👹] Anime Fighting Simulator
-    AnimeFightingSimulator = true 
-
-elseif placeId ==  606849621 then -- Jailbreak [TRADING!]
-    Jailbreak = true
-
-else
-    GameNotSupported = true
-end
-spawn(function()
-    repeat wait() until game:IsLoaded()
-end)
 
 
 -- function codes
@@ -72,30 +76,52 @@ _G.TeamCheck = false
         theFlash = false;
         maticClick = false;
         aimbotDown = false;
-        game.Players.LocalPlayer.Character.Humanoid.HipHeight = 2.708526372909546
-        flying = false
+        game.Players.LocalPlayer.Character.Humanoid.HipHeight = DefaultLutaw2
+        game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = DefaultKusogDagan;
+        game.Players.LocalPlayer.Character.Humanoid.JumpPower = DefaultKusogAmbak
+        game.workspace.Gravity = DefaultGravity
+        --flying = false
     end)
-
-local KusogAmbag = game.Players.LocalPlayer.Character.Humanoid.JumpPower
-local HipHeight = game.Players.LocalPlayer.Character.Humanoid.HipHeight
-local DefaultKusogDagan = game.Players.LocalPlayer.Character.Humanoid.WalkSpeed;   
-
-
 
 local UserName = game.Players.LocalPlayer.Name
 local GameName2 = game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name
 
-
-
-
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/reykorn2010/mr.rey/main/UI-Source.lua"))()
-local Window = Library.CreateLib("Mr.Rey Hub ", "DarkTheme")
+local Window = Library.CreateLib("Mr.Rey Hub ", "Serpent")
 
 local Main = Window:NewTab("Main Menu")
 local WelcomeSection = Main:NewSection("Welcome "..UserName.."!")
 
+local Character = Window:NewTab("Farm")
+local CharacterSection = Character:NewSection("Farm Mobs")
+
 --155615604 Prison Life
-if placeId == 155615604 then
+if PrisonLife then
+    getgenv().Weapons = Window:NewTab("Weapons")
+    getgenv().WeaponSection = Weapons:NewSection("Weapons and Ability")
+end
+
+
+local Aimbot = Window:NewTab("Aimbot/ESP")
+
+local Ability = Window:NewTab("Ability Hacks")
+local AbilitySection = Ability:NewSection("Change Character Ability")
+
+if BloxFruits then
+    getgenv().TeleportTab = Window:NewTab("Teleport")
+    getgenv().TeleportSection = TeleportTab:NewSection("Teleport Maps")
+end
+
+local GameSettings = Window:NewTab("Settings")
+local GameSettingsSection = GameSettings:NewSection("Game Settings")
+
+
+
+--Main Content
+WelcomeSection:NewLabel("Game Name: "..GameName2)
+WelcomeSection:NewLabel("Game ID: "..game.PlaceId)
+
+if placeId == 155615604 then 
     getgenv().Weapons = Window:NewTab("Weapons")
     getgenv().WeaponSection = Weapons:NewSection("Weapons and Ability")
 end
@@ -104,40 +130,17 @@ end
 
 
 
-local Aimbot = Window:NewTab("Aimbot")
-
-
-local Ability = Window:NewTab("Ability Hacks")
-local AbilitySection = Ability:NewSection("Change Character Ability")
-
-local Controls = Window:NewTab("Controls")
-local ControlsSection = Controls:NewSection("Controls")
-
-
-local GameSettings = Window:NewTab("Settings")
-local GameSettingsSection = GameSettings:NewSection("Graphics Settings")
-
-
-
-
-
---Main Content
-WelcomeSection:NewLabel("Game Name: "..GameName2)
-WelcomeSection:NewLabel("Game ID: "..game.PlaceId)
-
-
-
 ------------------------------------------------------------------  Weapons Content ------------------------------------------------------------------
 --155615604 Prison Life
 if placeId == 155615604 then  
 
     spawn(function()
-        WeaponSection:NewDropdown("Select Gun", "Gives The localplayer a gun", {"M9", "Remington 870", "AK-47", "M4A1"}, function(v)
+        WeaponSection:NewDropdown("Select Gun", "Gives The localplayer a gun", {"M9", "Remington 870", "AK-47"}, function(v)
             gun = v
             local A_1 = game:GetService("Workspace")["Prison_ITEMS"].giver[v].ITEMPICKUP
             local Event = game:GetService("Workspace").Remote.ItemHandler
             Event:InvokeServer(A_1)
-            game.StarterGui:SetCore("SendNotification", {Title="Gun "..gun.." is selected"; Text="Mr.Rey Developer"; Duration=10;})
+            game.StarterGui:SetCore("SendNotification", {Title="Gun "..gun.." is selected"; Text="Mr.Rey Blox Script"; Duration=5;})
         end)
     end)
 
@@ -158,10 +161,10 @@ if placeId == 155615604 then
                     module["ReloadTime"] = 0.0000000001
                     module["AutoFire"] = true
                 end
-                game.StarterGui:SetCore("SendNotification", {Title="OverPower is selected"; Text="Mr.Rey Developer"; Duration=10;})
+                game.StarterGui:SetCore("SendNotification", {Title="OverPower is selected"; Text="Mr.Rey Blox Script"; Duration=5;})
             else
                 module = nil
-                game.StarterGui:SetCore("SendNotification", {Title="OverPower is Disable"; Text="Mr.Rey Developer"; Duration=10;})
+                game.StarterGui:SetCore("SendNotification", {Title="OverPower is Disable"; Text="Mr.Rey Blox Script"; Duration=5;})
             end
 
         end)
@@ -177,17 +180,6 @@ end
 -- Lupad2
     if BloxFruits or AnimeFightingSimulator or DragonAdventures then 
         spawn(function()
-
-
-
-            --Fly()
-
-            AbilitySection:NewToggle("Superman (Lupad Lupad)", "Lupad Lupad lang gud.. ", function(Lupad)
-
-
-                    if Lupad then
-                        flying = true 
-
 
             repeat wait() 
             until game.Players.LocalPlayer and game.Players.LocalPlayer.Character and game.Players.LocalPlayer.Character:findFirstChild("Head") and game.Players.LocalPlayer.Character:findFirstChild("Humanoid") 
@@ -263,17 +255,27 @@ end
                     ctrl.r = 0 
                 end 
             end)
-
-
-
-
-
-
+    
+            --Fly()
+    
+            AbilitySection:NewToggle("Superman (Lupad Lupad)", "Lupad Lupad lang gud.. ", function(Lupad)
+    
+    
+                    if Lupad then
+                        flying = true 
                         Fly()       
-                        game.StarterGui:SetCore("SendNotification", {Title="Lupad Lupad is ON"; Text="Mr.Rey Developer"; Duration=10;})    
+                        game:GetService("StarterGui"):SetCore("SendNotification",{
+                            Title = "Mr.Rey Blox Script";
+                            Text = "Lupad2 is :"..flying..".";
+                            Duration = 10;
+                        })        
                     else
                         flying = false
-                        game.StarterGui:SetCore("SendNotification", {Title="Lupad Lupad is OFF"; Text="Mr.Rey Developer"; Duration=10;})   
+                        game:GetService("StarterGui"):SetCore("SendNotification",{
+                            Title = "Mr.Rey Blox Script";
+                            Text = "Lupad2 is :"..flying..".";
+                            Duration = 10;
+                        })  
                     end
                 end
             )
@@ -298,7 +300,7 @@ if AnimeFightingSimulator then
             autoKusogDagan = dagan;
         
             if dagan == true then
-                game.StarterGui:SetCore("SendNotification", {Title="Kusog Dagan is ON"; Text="Mr.Rey Developer"; Duration=10;})  
+                game.StarterGui:SetCore("SendNotification", {Title="Kusog Dagan is ON"; Text="Mr.Rey Blox Script"; Duration=5;})  
                 while dagan == true and autoKusogDagan == true do
                     game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 400;   
                     wait(0.5);
@@ -307,7 +309,7 @@ if AnimeFightingSimulator then
                 game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = DefaultKusogDagan;
                 wait(0.5)
                 autoKusogDagan = false;
-                game.StarterGui:SetCore("SendNotification", {Title="Kusog Dagan is OFF"; Text="Mr.Rey Developer"; Duration=10;})  
+                game.StarterGui:SetCore("SendNotification", {Title="Kusog Dagan is OFF"; Text="Mr.Rey Blox Script"; Duration=5;})  
             end
         end)
     end)
@@ -317,7 +319,7 @@ elseif DragonAdventures then
     spawn(function()
         AbilitySection:NewToggle("Kusog Dagan", "Kusog dagan para dli ka ma apsan.. ", function(dagan)
             autoKusogDagan = dagan;
-            game.StarterGui:SetCore("SendNotification", {Title="Kusog Dagan is ON"; Text="Mr.Rey Developer"; Duration=10;})  
+            game.StarterGui:SetCore("SendNotification", {Title="Kusog Dagan is ON"; Text="Mr.Rey Blox Script"; Duration=5;})  
             while autoKusogDagan == true do
                 game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 400
                 wait(0.5)
@@ -361,8 +363,6 @@ spawn(function()
 end)
 
 
-
-
 -- Gravity
     spawn(function()
         AbilitySection:NewSlider("Gravity", "Kusog ambak dugay tugpa.. ", 0, DefaultGravity, function(v) -- 500 (MaxValue) | 0 (MinValue)
@@ -377,7 +377,7 @@ end)
 
             if state then
 
-                game.StarterGui:SetCore("SendNotification", {Title="infinite Jump is ON"; Text="Mr.Rey Developer"; Duration=10;})  
+                game.StarterGui:SetCore("SendNotification", {Title="infinite Jump is ON"; Text="Mr.Rey Blox Script"; Duration=5;})  
 
                 -- //~ F to toggle ~\\ --
                 
@@ -411,7 +411,7 @@ end)
 
             else
                 _G.infinjump = false
-                game.StarterGui:SetCore("SendNotification", {Title="infinite Jump is OFF"; Text="Mr.Rey Developer"; Duration=10;})  
+                game.StarterGui:SetCore("SendNotification", {Title="infinite Jump is OFF"; Text="Mr.Rey Blox Script"; Duration=5;})  
             end
 
 
@@ -518,14 +518,14 @@ if GameNotSupported then
                     flying = true 
                     Fly()       
                     game:GetService("StarterGui"):SetCore("SendNotification",{
-                        Title = "Mr.Rey Developer";
+                        Title = "Mr.Rey Blox Script";
                         Text = "Lupad2 is :"..flying..".";
                         Duration = 10;
                     })        
                 else
                     flying = false
                     game:GetService("StarterGui"):SetCore("SendNotification",{
-                        Title = "Mr.Rey Developer";
+                        Title = "Mr.Rey Blox Script";
                         Text = "Lupad2 is :"..flying..".";
                         Duration = 10;
                     })  
@@ -549,10 +549,10 @@ spawn(function()
     EnableAimbotSection:NewToggle("Enable or Disale", "If true, All aimbot settings are available.. if False, All aimbot settings are disabled", function(state)
         if state == true then
             _G.WRDESPEnabled = true
-            game.StarterGui:SetCore("SendNotification", {Title="Aimbots are Available"; Text="Mr.Rey Developer"; Duration=10;})
+            game.StarterGui:SetCore("SendNotification", {Title="Aimbots are Available"; Text="Mr.Rey Blox Script"; Duration=5;})
         elseif state == false then
             _G.WRDESPEnabled = false
-            game.StarterGui:SetCore("SendNotification", {Title="Aimbots are Disabled"; Text="Mr.Rey Developer"; Duration=10;})
+            game.StarterGui:SetCore("SendNotification", {Title="Aimbots are Disabled"; Text="Mr.Rey Blox Script"; Duration=5;})
         end
     end)
 end)
@@ -565,10 +565,10 @@ spawn(function()
     AimbotSection:NewToggle("Target Enemy Player only", "If true, Players on the same team will not be aimed at.. if False, All players in the game will be aimed", function(state)
         if state == true then
             _G.WRDAimbotTeamCheck = true
-            game.StarterGui:SetCore("SendNotification", {Title="Target: Enemy Player only"; Text="Mr.Rey Developer"; Duration=10;})
+            game.StarterGui:SetCore("SendNotification", {Title="Target: Enemy Player only"; Text="Mr.Rey Blox Script"; Duration=5;})
         elseif state == false then
             _G.WRDAimbotTeamCheck = false
-            game.StarterGui:SetCore("SendNotification", {Title="Target: All Player"; Text="Mr.Rey Developer"; Duration=10;})
+            game.StarterGui:SetCore("SendNotification", {Title="Target: All Player"; Text="Mr.Rey Blox Script"; Duration=5;})
         end
     end)
 end)
@@ -580,10 +580,10 @@ spawn(function()
     AimbotSection:NewToggle("Auto Aim Player Head when Holding Right CLick", "If true, Simulates mouse movement. Its as if you actually moved your mouse onto the player, meaning this is harder to detect. If false, Will use camera manipulation. ", function(state)
         if state == true then
             _G.WRDAimbotBypass = false
-            game.StarterGui:SetCore("SendNotification", {Title="Mouse Aim"; Text="Mr.Rey Developer"; Duration=10;})
+            game.StarterGui:SetCore("SendNotification", {Title="Mouse Aim"; Text="Mr.Rey Blox Script"; Duration=5;})
         elseif state == false then
             _G.WRDAimbotBypass = true
-            game.StarterGui:SetCore("SendNotification", {Title="Camera Aim"; Text="Mr.Rey Developer"; Duration=10;})
+            game.StarterGui:SetCore("SendNotification", {Title="Camera Aim"; Text="Mr.Rey Blox Script"; Duration=5;})
         end
     end)
 end)
@@ -595,10 +595,10 @@ spawn(function()
     AimbotSection:NewToggle("Target Closest visible player", "If true, the aimbot will only look for the closest visible player. If false, the aimbot will look for all players, even if they're behind a wall ", function(state)
         if state == true then
             _G.WRDAimBotWallcheck = true
-            game.StarterGui:SetCore("SendNotification", {Title="Target Closest Player"; Text="Mr.Rey Developer"; Duration=10;})
+            game.StarterGui:SetCore("SendNotification", {Title="Target Closest Player"; Text="Mr.Rey Blox Script"; Duration=5;})
         elseif state == false then
             _G.WRDAimBotWallcheck = false
-            game.StarterGui:SetCore("SendNotification", {Title="Target all player"; Text="Mr.Rey Developer"; Duration=10;})
+            game.StarterGui:SetCore("SendNotification", {Title="Target all player"; Text="Mr.Rey Blox Script"; Duration=5;})
         end
     end)
 end)
@@ -616,10 +616,10 @@ local ESPSection = Aimbot:NewSection("ESP toggle List ")
 
             if KitaNgalan then
                 _G.WRDESPNames = true
-                game.StarterGui:SetCore("SendNotification", {Title="Makita ang Ngalan is ON"; Text="Mr.Rey Developer"; Duration=10;})  
+                game.StarterGui:SetCore("SendNotification", {Title="Makita ang Ngalan is ON"; Text="Mr.Rey Blox Script"; Duration=5;})  
             else
                 _G.WRDESPNames = false
-                game.StarterGui:SetCore("SendNotification", {Title="Makita ang Ngalan is OFF"; Text="Mr.Rey Developer"; Duration=10;})  
+                game.StarterGui:SetCore("SendNotification", {Title="Makita ang Ngalan is OFF"; Text="Mr.Rey Blox Script"; Duration=5;})  
             end
 
         end)
@@ -634,10 +634,10 @@ local ESPSection = Aimbot:NewSection("ESP toggle List ")
 
             if linya then
                 _G.WRDESPTracers = true
-                game.StarterGui:SetCore("SendNotification", {Title="Linya sa Player is ON"; Text="Mr.Rey Developer"; Duration=10;})  
+                game.StarterGui:SetCore("SendNotification", {Title="Linya sa Player is ON"; Text="Mr.Rey Blox Script"; Duration=5;})  
             else
                 _G.WRDESPTracers = false
-                game.StarterGui:SetCore("SendNotification", {Title="Linya sa Player is OFF"; Text="Mr.Rey Developer"; Duration=10;}) 
+                game.StarterGui:SetCore("SendNotification", {Title="Linya sa Player is OFF"; Text="Mr.Rey Blox Script"; Duration=5;}) 
             end
 
         end)
@@ -653,10 +653,10 @@ local ESPSection = Aimbot:NewSection("ESP toggle List ")
 
             if boxSaPlayer then
                 _G.WRDESPBoxes = true
-                game.StarterGui:SetCore("SendNotification", {Title="Box sa Player is ON"; Text="Mr.Rey Developer"; Duration=10;}) 
+                game.StarterGui:SetCore("SendNotification", {Title="Box sa Player is ON"; Text="Mr.Rey Blox Script"; Duration=5;}) 
             else
                 _G.WRDESPBoxes = false
-                game.StarterGui:SetCore("SendNotification", {Title="Box sa Player is OFF"; Text="Mr.Rey Developer"; Duration=10;}) 
+                game.StarterGui:SetCore("SendNotification", {Title="Box sa Player is OFF"; Text="Mr.Rey Blox Script"; Duration=5;}) 
             end
 
         end)
@@ -664,14 +664,55 @@ local ESPSection = Aimbot:NewSection("ESP toggle List ")
 
 
 
+------------------------------------------------------------------  Settings Content ------------------------------------------------------------------
 
 
-------------------------------------------------------------------  Control Content ------------------------------------------------------------------
+
+
+-- Focus Anti-AFK
+
+    spawn(function()
+        GameSettingsSection:NewToggle("Focus Anti-AFK", "Para dili ma kick og mag AFK ", function(state)
+            if state == true then
+                assert(firesignal, "Your exploit does not support firesignal.")
+                local UserInputService: UserInputService = game:GetService("UserInputService")
+                local RunService: RunService = game:GetService("RunService")
+                UserInputService.WindowFocusReleased:Connect(function()
+                RunService.Stepped:Wait()
+                pcall(firesignal, UserInputService.WindowFocused)
+                end)
+                game.StarterGui:SetCore("SendNotification", {Title="Focus Anti-AFK is ON"; Text="Mr.Rey Blox Script"; Duration=5;})
+            elseif state == false then
+             
+                game.StarterGui:SetCore("SendNotification", {Title="Focus Anti-AFK is OFF"; Text="Mr.Rey Blox Script"; Duration=5;})
+            end
+        end)
+    end)
+
+
+-- Chat logs
+
+spawn(function()
+    GameSettingsSection:NewToggle("Chat Log", "Turn on to Open CHat logs", function(state)
+        if state then
+            local ChatFrame = game.Players.LocalPlayer.PlayerGui.Chat.Frame
+            ChatFrame.ChatChannelParentFrame.Visible = true
+            ChatFrame.ChatBarParentFrame.Position = ChatFrame.ChatChannelParentFrame.Position + UDim2.new(UDim.new(), ChatFrame.ChatChannelParentFrame.Size.Y)
+            game.StarterGui:SetCore("SendNotification", {Title="Mr.Rey Blox Script"; Text="Chat logs on On"; Duration=5;})
+        else
+            local ChatFrame = game.Players.LocalPlayer.PlayerGui.Chat.Frame
+            ChatFrame.ChatChannelParentFrame.Visible = false
+            ChatFrame.ChatBarParentFrame.Position = ChatFrame.ChatChannelParentFrame.Position + UDim2.new(0, 0, 0, 0)
+            game.StarterGui:SetCore("SendNotification", {Title="Mr.Rey Blox Script"; Text="Chat logs on OFF"; Duration=5;})
+        end
+    end)
+end)
+
 
 
     -- Auto Click
     spawn(function()
-        ControlsSection:NewLabel("Click P to Start and Stop Auto Click Mouse")
+        GameSettingsSection:NewLabel("Click P to Start and Stop Auto Click Mouse")
     end)
 
     UserInputService.InputBegan:Connect(function(input, processed)
@@ -680,7 +721,7 @@ local ESPSection = Aimbot:NewSection("ESP toggle List ")
                 maticClick = true
                 maticClickLabel = 'TRUE'
 
-                game.StarterGui:SetCore("SendNotification", {Title="Mr.Rey Developer"; Text="Matik click mouse kay aktibo, e click ang L balik para mo hunong tuplok.. STATUS:"..tostring(maticClick).."."; Duration=10;})  
+                game.StarterGui:SetCore("SendNotification", {Title="Mr.Rey Blox Script"; Text="Matik click mouse kay aktibo, e click ang L balik para mo hunong tuplok.. STATUS:"..tostring(maticClick).."."; Duration=5;})  
 
                 while maticClick do
                     mouse1click()
@@ -691,7 +732,7 @@ local ESPSection = Aimbot:NewSection("ESP toggle List ")
             if maticClick == true then
                 maticClick = false
                 maticClickLabel = 'FALSE'
-                game.StarterGui:SetCore("SendNotification", {Title="Mr.Rey Developer"; Text="Matik click mouse kay di aktibo, e click ang L balik para mo balik tuplok.. STATUS:"..tostring(maticClick).."."; Duration=10;}) 
+                game.StarterGui:SetCore("SendNotification", {Title="Mr.Rey Blox Script"; Text="Matik click mouse kay di aktibo, e click ang L balik para mo balik tuplok.. STATUS:"..tostring(maticClick).."."; Duration=5;}) 
             end
 
             
@@ -699,36 +740,292 @@ local ESPSection = Aimbot:NewSection("ESP toggle List ")
     end)
 
 
--- Focus Anti-AFK
+
+
+----------------------------------------------------------------------------- teleport --------------------------------------------------------------
+-- BloxFruits teleport
+if BloxFruits then 
 
     spawn(function()
-        ControlsSection:NewToggle("Focus Anti-AFK", "Para dili ma kick og mag AFK ", function(state)
-            if state == true then
-                assert(firesignal, "Your exploit does not support firesignal.")
-                local UserInputService: UserInputService = game:GetService("UserInputService")
-                local RunService: RunService = game:GetService("RunService")
-                UserInputService.WindowFocusReleased:Connect(function()
-                RunService.Stepped:Wait()
-                pcall(firesignal, UserInputService.WindowFocused)
-                end)
-                game.StarterGui:SetCore("SendNotification", {Title="Focus Anti-AFK is ON"; Text="Mr.Rey Developer"; Duration=10;})
-            elseif state == false then
-             
-                game.StarterGui:SetCore("SendNotification", {Title="Focus Anti-AFK is OFF"; Text="Mr.Rey Developer"; Duration=10;})
+        TeleportSection:NewButton("Teleport To Sea 1", "To Sea 1", function()
+            local args = {
+                [1] = "TravelMain" -- OLD WORLD to NEW WORLD
+            }
+            game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+        end)
+
+        TeleportSection:NewButton("Teleport To Sea 2", "To Sea 2", function()
+            local args = {
+                [1] = "TravelDressrosa" -- NEW WORLD to OLD WORLD
+            }
+            game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+        end)   
+
+        TeleportSection:NewButton("Teleport To Sea 3", "To Sea 3", function()
+            local args = {
+                [1] = "TravelZou" -- OLD WORLD to NEW WORLD
+            }
+            game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+        end)  
+        
+        if OldWorld then
+            Island = {
+                "Start Island", "Marine Start", "Middle Town", "Jungle", "Pirate Village", "Desert", "Frozen Village", "MarineFord", "Colosseum", "Sky 1st Floor", "Sky 2st Floor", "Sky 3st Floor", "Prison", "Magma Village", "UndeyWater City", "Fountain City", "House Cyborg's", "Shank's Room", "Mob Island"
+            }
+            -- NPC
+            NPC = {
+                "Random Devil Fruit","Blox Fruits Dealer","Remove Devil Fruit","Ability Teacher","Dark Step","Electro","Fishman Karate"
+            }
+        elseif NewWorld then
+            Island = {
+                "First Spot", "Kingdom of Rose", "Dark Ares", "Flamingo Mansion", "Flamingo Room", "Green bit", "Cafe", "Factroy", "Colosseum", "Ghost Island", "Ghost Island 2nd", "Snow Mountain", "Hot and Cold", "Magma Side", "Cursed Ship", "Frosted Island", "Forgotten Island", "Usoapp Island", "Raids Low", "Minisky"
+            }
+            -- NPC
+            NPC = {
+                "Dargon Berath","Mtsterious Man","Mysterious Scientist","Awakening Expert","Nerd","Bar Manager","Blox Fruits Dealer","Trevor","Plokster","Enhancement Editor","Pirate Recruiter","Marines Recruiter","Chemist","Cyborg","Ghoul Mark","Guashiem","El Admin","El Rodolfo","Arowe"
+            }
+        elseif ThreeWorld then
+            Island = {
+                "Prot Town","Hydar Island","Room Enma/Yama & Secret Temple","House Hydar Island","Great Tree","Castle on the sea","Mansion","Floating Turtlea","Haunted Castle","Peanut Island","Ice Cream Island","CakeLoaf"
+            }
+            -- NPC
+            NPC = {
+                ["Random Devil Fruit"] = CFrame.new(-12491, 337, -7449),
+                ["Blox Fruits Dealer"] = CFrame.new(-12511, 337, -7448),
+                ["Remove Devil Fruit"] = CFrame.new(-5571, 1089, -2661),
+                ["Horned Man"] = CFrame.new(-11890, 931, -8760),
+                ["Hungey Man"] = CFrame.new(-10919, 624, -10268),
+                ["Previous Hero"] = CFrame.new(-10368, 332, -10128),
+                ["Butler"] = CFrame.new(-5125, 316, -3130),
+                ["Lunoven"] = CFrame.new(-5117, 316, -3093),
+                ["Elite Hunter"] = CFrame.new(-5420, 314, -2828),
+                ["Player Hunter"] = CFrame.new(-5559, 314, -2840),
+                ["Uzoth"] = CFrame.new(-9785, 852, 6667),
+            }
+        end
+        SelectedNPC = ""
+        SelectedIsland = ""
+        SelectedIslandCframe = ""
+        SelectedNPCCframe = ""
+        TeleportSection:NewLabel("Teleport Island")
+        TeleportSection:NewDropdown("Select Island", "Select Island", Island, function(v)
+            SelectedIsland = v
+
+
+            -- 1st WOrld island
+            if SelectedIsland == "Start Island" then
+                SelectedIslandCframe = CFrame.new(1071.2832, 16.3085976, 1426.86792)
+            elseif SelectedIsland == "Marine Start" then
+                SelectedIslandCframe = CFrame.new(-2573.3374, 6.88881969, 2046.99817)
+            elseif SelectedIsland == "Middle Town" then
+                SelectedIslandCframe = CFrame.new(-655.824158, 7.88708115, 1436.67908)
+            elseif SelectedIsland == "Jungle" then
+                SelectedIslandCframe = CFrame.new(-1249.77222, 11.8870859, 341.356476)
+            elseif SelectedIsland == "Pirate Village" then
+                SelectedIslandCframe = CFrame.new(-1122.34998, 4.78708982, 3855.91992)
+            elseif SelectedIsland == "Desert" then
+                SelectedIslandCframe = CFrame.new(1094.14587, 6.47350502, 4192.88721)
+            elseif SelectedIsland == "Frozen Village" then
+                SelectedIslandCframe = CFrame.new(1198.00928, 27.0074959, -1211.73376)
+            elseif SelectedIsland == "MarineFord" then
+                SelectedIslandCframe = CFrame.new(-4505.375, 20.687294, 4260.55908)
+            elseif SelectedIsland == "Colosseum" then
+                SelectedIslandCframe = CFrame.new(-1428.35474, 7.38933945, -3014.37305)
+            elseif SelectedIsland == "Sky 1st Floor" then
+                SelectedIslandCframe = CFrame.new(-4970.21875, 717.707275, -2622.35449)
+            elseif SelectedIsland == "Sky 2st Floor" then
+                SelectedIslandCframe = CFrame.new(-4813.0249, 903.708557, -1912.69055)
+            elseif SelectedIsland == "Sky 3st Floor" then
+                SelectedIslandCframe = CFrame.new(-7952.31006, 5545.52832, -320.704956)
+            elseif SelectedIsland == "Prison" then
+                SelectedIslandCframe = CFrame.new(4854.16455, 5.68742752, 740.194641)
+            elseif SelectedIsland == "Magma Village" then
+                SelectedIslandCframe = CFrame.new(-5231.75879, 8.61593437, 8467.87695)
+            elseif SelectedIsland == "UndeyWater City" then
+                SelectedIslandCframe = CFrame.new(61163.8516, 11.7796879, 1819.78418)
+            elseif SelectedIsland == "Fountain City" then
+                SelectedIslandCframe = CFrame.new(5132.7124, 4.53632832, 4037.8562)
+            elseif SelectedIsland == "House Cyborg's" then
+                SelectedIslandCframe = CFrame.new(6262.72559, 71.3003616, 3998.23047)
+            elseif SelectedIsland == "Shank's Room" then
+                SelectedIslandCframe = CFrame.new(-1442.16553, 29.8788261, -28.3547478)
+            elseif SelectedIsland == "Mob Island" then
+                SelectedIslandCframe = CFrame.new(-2850.20068, 7.39224768, 5354.99268)
+            end
+
+
+            -- 2nd world
+            if SelectedIsland == "First Spot" then
+                SelectedIslandCframe = CFrame.new(82.9490662, 18.0710983, 2834.98779)
+            elseif SelectedIsland == "Kingdom of Rose" then
+                SelectedIslandCframe = game.Workspace["_WorldOrigin"].Locations["Kingdom of Rose"].CFrame
+            elseif SelectedIsland == "Dark Ares" then
+                SelectedIslandCframe = game.Workspace["_WorldOrigin"].Locations["Dark Ares"].CFrame
+            elseif SelectedIsland == "Flamingo Mansion" then
+                SelectedIslandCframe = CFrame.new(-390.096313, 331.886475, 673.464966)
+            elseif SelectedIsland == "Flamingo Room" then
+                SelectedIslandCframe = CFrame.new(2302.19019, 15.1778421, 663.811035)
+            elseif SelectedIsland == "Green bit" then
+                SelectedIslandCframe = CFrame.new(-2372.14697, 72.9919434, -3166.51416)
+            elseif SelectedIsland == "Cafe" then
+                SelectedIslandCframe = CFrame.new(-385.250916, 73.0458984, 297.388397)
+            elseif SelectedIsland == "Factroy" then
+                SelectedIslandCframe = CFrame.new(430.42569, 210.019623, -432.504791)
+            elseif SelectedIsland == "Colosseum" then
+                SelectedIslandCframe = CFrame.new(-1836.58191, 44.5890656, 1360.30652)
+            elseif SelectedIsland == "Ghost Island" then
+                SelectedIslandCframe = CFrame.new(-5571.84424, 195.182297, -795.432922)
+            elseif SelectedIsland == "Ghost Island 2nd" then
+                SelectedIslandCframe = CFrame.new(-5931.77979, 5.19706631, -1189.6908)
+            elseif SelectedIsland == "Snow Mountain" then
+                SelectedIslandCframe = CFrame.new(1384.68298, 453.569031, -4990.09766)
+            elseif SelectedIsland == "Hot and Cold" then
+                SelectedIslandCframe = CFrame.new(-6026.96484, 14.7461271, -5071.96338)
+            elseif SelectedIsland == "Magma Side" then
+                SelectedIslandCframe = CFrame.new(-5478.39209, 15.9775667, -5246.9126)
+            elseif SelectedIsland == "Cursed Ship" then
+                SelectedIslandCframe = CFrame.new(902.059143, 124.752518, 33071.8125)
+            elseif SelectedIsland == "Frosted Island" then
+                SelectedIslandCframe = CFrame.new(5400.40381, 28.21698, -6236.99219)
+            elseif SelectedIsland == "Forgotten Island" then
+                SelectedIslandCframe = CFrame.new(-3043.31543, 238.881271, -10191.5791)
+            elseif SelectedIsland == "Usoapp Island" then
+                SelectedIslandCframe = CFrame.new(4748.78857, 8.35370827, 2849.57959)
+            elseif SelectedIsland == "Raids Low" then
+                SelectedIslandCframe = CFrame.new(-5554.95313, 329.075623, -5930.31396)
+            elseif SelectedIsland == "Minisky" then
+                SelectedIslandCframe = CFrame.new(-260.358917, 49325.7031, -35259.3008)
+            end
+
+            --3rd world
+            if SelectedIsland == "Prot Town" then SelectedIslandCframe = CFrame.new(-287, 30, 5388)
+            elseif SelectedIsland == "Hydar Island" then SelectedIslandCframe = CFrame.new(3399.32227, 72.4142914, 1572.99963 -0.809679806 -4.48284467e-08, 0.586871922, 2.42332163e-08, 1, 1.09818842e-07, -0.586871922, 1.0313989e-07 -0.809679806)
+            elseif SelectedIsland == "Room Enma/Yama & Secret Temple" then SelectedIslandCframe = CFrame.new(5247, 7, 1097)
+            elseif SelectedIsland == "House Hydar Island" then SelectedIslandCframe = CFrame.new(5245, 602, 251)
+            elseif SelectedIsland == "Great Tree" then SelectedIslandCframe = CFrame.new(2443, 36, -6573)
+            elseif SelectedIsland == "Castle on the sea" then SelectedIslandCframe = CFrame.new(-5500, 314, -2855)
+            elseif SelectedIsland == "Mansion" then SelectedIslandCframe = CFrame.new(-12548,337, -7481)
+            elseif SelectedIsland == "Floating Turtlea" then SelectedIslandCframe = CFrame.new(-10016, 332, -8326)
+            elseif SelectedIsland == "Haunted Castle" then SelectedIslandCframe = CFrame.new(-9509.34961, 142.130661, 5535.16309)
+            elseif SelectedIsland == "Peanut Island" then SelectedIslandCframe = CFrame.new(-2131, 38, -10106)
+            elseif SelectedIsland == "Ice Cream Island" then SelectedIslandCframe = CFrame.new(-950, 59, -10907)
+            elseif SelectedIsland == "CakeLoaf" then SelectedIslandCframe = CFrame.new(-1762, 38, -11878)
+            end
+
+        end)
+
+
+
+        function tweenTarget(targetPos, targetCFrame)
+            local tweenfunc = {}
+            local tween_s = game:service"TweenService"
+            local info = TweenInfo.new((targetPos - game:GetService("Players").LocalPlayer.Character:WaitForChild("HumanoidRootPart").Position).Magnitude/325, Enum.EasingStyle.Linear)
+            local tween = tween_s:Create(game:GetService("Players").LocalPlayer.Character["HumanoidRootPart"], info, {CFrame = targetCFrame * CFrame.fromAxisAngle(Vector3.new(1,0,0), math.rad(0))})
+            tween:Play()
+        
+            function tweenfunc:Stop()
+                tween:Cancel()
+                return tween
+            end
+        
+            if not tween then return tween end
+            return tweenfunc
+        end
+
+        spawn(function()
+            while true do wait()
+                if TweenIsland then
+                    TweenIslandWork = tweenTarget(SelectedIslandCframe.Position,SelectedIslandCframe)
+                    if (SelectedIslandCframe.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).magnitude <= 350 then
+                        if TweenIslandWork then
+                            TweenIslandWork:Stop()
+                        end
+                        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = SelectedIslandCframe
+                    end
+                end
+                if TweenNPC then
+                    TweenNPCWork = tweenTarget(SelectedNPCCframe.Position,SelectedNPCCframe)
+                    if (SelectedNPCCframe.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).magnitude <= 350 then
+                        if TweenNPCWork then
+                            TweenNPCWork:Stop()
+                        end
+                        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = SelectedNPCCframe
+                    end
+                end
             end
         end)
+
+        TeleportSection:NewToggle("Teleport Island", "Teleport Island ", function(a)
+            TweenIsland = a
+            if not TweenIsland then
+                if TweenIslandWork then
+                    TweenIslandWork:Stop()
+                end
+            end
+        end)
+        TeleportSection:NewLabel("Teleport NPCs")
+        TeleportSection:NewDropdown("Select NPC", "Selected NPC", NPC, function(a)
+            SelectedNPC = a
+
+            -- 1st WOrld island NPC
+            if SelectedNPC == "Random Devil Fruit" then SelectedNPCCframe = CFrame.new(-1436.19727, 61.8777695, 4.75247526, -0.557794094, 2.74216543e-08, 0.829979479, 5.83273234e-08, 1, 6.16037932e-09, -0.829979479, 5.18467118e-08, -0.557794094)
+            elseif SelectedNPC == "Blox Fruits Dealer" then SelectedNPCCframe = CFrame.new(-923.255066, 7.67800522, 1608.61011, 1, 0, 0, 0, 1, 0, 0, 0, 1)
+            elseif SelectedNPC == "Remove Devil Fruit" then SelectedNPCCframe = CFrame.new(5664.80469, 64.677681, 867.85907, 1, 0, 0, 0, 1, 0, 0, 0, 1)
+            elseif SelectedNPC == "Ability Teacher" then SelectedNPCCframe = CFrame.new(-1057.67822, 9.65220833, 1799.49146, -0.865874112, -9.26330159e-08, 0.500262439, -7.33759435e-08, 1, 5.816689e-08, -0.500262439, 1.36579752e-08, -0.865874112)
+            elseif SelectedNPC == "Dark Step" then SelectedNPCCframe = CFrame.new(-987.873047, 13.7778397, 3989.4978, 1, 0, 0, 0, 1, 0, 0, 0, 1)
+            elseif SelectedNPC == "Electro" then SelectedNPCCframe = CFrame.new(-5389.49561, 13.283, -2149.80151, 1, 0, 0, 0, 1, 0, 0, 0, 1)
+            elseif SelectedNPC == "Fishman Karate" then SelectedNPCCframe = CFrame.new(61581.8047, 18.8965912, 987.832703, 1, 0, 0, 0, 1, 0, 0, 0, 1)
+            end
+            -- 2nd World NPC
+            if SelectedNPC == "Dargon Berath" then SelectedNPCCframe = CFrame.new(703.372986, 186.985519, 654.522034, 1, 0, 0, 0, 1, 0, 0, 0, 1)
+            elseif SelectedNPC == "Mtsterious Man" then SelectedNPCCframe = CFrame.new(-2574.43335, 1627.92371, -3739.35767, 0.378697902, -9.06400288e-09, 0.92552036, -8.95582009e-09, 1, 1.34578926e-08, -0.92552036, -1.33852689e-08, 0.378697902)
+            elseif SelectedNPC == "Mysterious Scientist" then SelectedNPCCframe = CFrame.new(-6437.87793, 250.645355, -4498.92773, 0.502376854, -1.01223634e-08, -0.864648759, 2.34106086e-08, 1, 1.89508653e-09, 0.864648759, -2.11940012e-08, 0.502376854)
+            elseif SelectedNPC == "Awakening Expert" then SelectedNPCCframe = CFrame.new(-408.098846, 16.0459061, 247.432846, 0.028394036, 6.17599138e-10, 0.999596894, -5.57905944e-09, 1, -4.59372484e-10, -0.999596894, -5.56376767e-09, 0.028394036)
+            elseif SelectedNPC == "Nerd" then SelectedNPCCframe = CFrame.new(-401.783722, 73.0859299, 262.306702, 1, 0, 0, 0, 1, 0, 0, 0, 1)
+            elseif SelectedNPC == "Bar Manager" then SelectedNPCCframe = CFrame.new(-385.84726, 73.0458984, 316.088806, 1, 0, 0, 0, 1, 0, 0, 0, 1)
+            elseif SelectedNPC == "Blox Fruits Dealer" then SelectedNPCCframe = CFrame.new(-450.725464, 73.0458984, 355.636902, -0.780352175, -2.7266168e-08, 0.625340283, 9.78516468e-09, 1, 5.58128797e-08, -0.625340283, 4.96727601e-08, -0.780352175)
+            elseif SelectedNPC == "Trevor" then SelectedNPCCframe = CFrame.new(-341.498322, 331.886444, 643.024963, 1, 0, 0, 0, 1, 0, 0, 0, 1)
+            elseif SelectedNPC == "Plokster" then SelectedNPCCframe = CFrame.new(-1885.16016, 88.3838196, -1912.28723, -0.513468027, 0, 0.858108759, 0, 1, 0, -0.858108759, 0, -0.513468027)
+            elseif SelectedNPC == "Enhancement Editor" then SelectedNPCCframe = CFrame.new(-346.820221, 72.9856339, 1194.36218, 1, 0, 0, 0, 1, 0, 0, 0, 1)
+            elseif SelectedNPC == "Pirate Recruiter" then SelectedNPCCframe = CFrame.new(-428.072998, 72.9495239, 1445.32422, 1, 0, 0, 0, 1, 0, 0, 0, 1)
+            elseif SelectedNPC == "Marines Recruiter" then SelectedNPCCframe = CFrame.new(-1349.77295, 72.9853363, -1045.12964, 0.866493046, 0, -0.499189168, 0, 1, 0, 0.499189168, 0, 0.866493046)
+            elseif SelectedNPC == "Chemist" then SelectedNPCCframe = CFrame.new(-2777.45288, 72.9919434, -3572.25732, 1, 0, 0, 0, 1, 0, 0, 0, 1)
+            elseif SelectedNPC == "Cyborg" then SelectedNPCCframe = CFrame.new(629.146851, 312.307373, -531.624146, 1, 0, 0, 0, 1, 0, 0, 0, 1)
+            elseif SelectedNPC == "Ghoul Mark" then SelectedNPCCframe = CFrame.new(635.172546, 125.976357, 33219.832, 1, 0, 0, 0, 1, 0, 0, 0, 1)
+            elseif SelectedNPC == "Guashiem" then SelectedNPCCframe = CFrame.new(937.953003, 181.083359, 33277.9297, 1, -8.60126406e-08, 3.81773896e-17, 8.60126406e-08, 1, -1.89969598e-16, -3.8177373e-17, 1.89969598e-16, 1)
+            elseif SelectedNPC == "El Admin" then SelectedNPCCframe = CFrame.new(1322.80835, 126.345039, 33135.8789, 0.988783717, -8.69797603e-08, -0.149354503, 8.62223786e-08, 1, -1.15461916e-08, 0.149354503, -1.46101409e-09, 0.988783717)
+            elseif SelectedNPC == "El Rodolfo" then SelectedNPCCframe = CFrame.new(941.228699, 40.4686775, 32778.9922, -0.818029106, -1.19524382e-08, 0.575176775, -1.28741648e-08, 1, 2.47053866e-09, -0.575176775, -5.38394795e-09, -0.818029106)
+            elseif SelectedNPC == "Arowe" then SelectedNPCCframe = CFrame.new(-1994.51038, 125.519142, -72.2622986, -0.16715166, -6.55417338e-08, -0.985931218, -7.13315558e-08, 1, -5.43836585e-08, 0.985931218, 6.12376851e-08, -0.16715166)
+            end
+            -- 3rd World NPC
+            if SelectedNPC == "Random Devil Fruit" then SelectedNPCCframe = CFrame.new(-12491, 337, -7449)
+            elseif SelectedNPC == "Blox Fruits Dealer" then SelectedNPCCframe = CFrame.new(-12511, 337, -7448)
+            elseif SelectedNPC == "Remove Devil Fruit" then SelectedNPCCframe = CFrame.new(-5571, 1089, -2661)
+            elseif SelectedNPC == "Horned Man" then SelectedNPCCframe = CFrame.new(-11890, 931, -8760)
+            elseif SelectedNPC == "Hungey Man" then SelectedNPCCframe = CFrame.new(-10919, 624, -10268)
+            elseif SelectedNPC == "Previous Hero" then SelectedNPCCframe = CFrame.new(-10368, 332, -10128)
+            elseif SelectedNPC == "Butler" then SelectedNPCCframe = CFrame.new(-5125, 316, -3130)
+            elseif SelectedNPC == "Lunoven" then SelectedNPCCframe = CFrame.new(-5117, 316, -3093)
+            elseif SelectedNPC == "Elite Hunter" then SelectedNPCCframe = CFrame.new(-5420, 314, -2828)
+            elseif SelectedNPC == "Player Hunter" then SelectedNPCCframe = CFrame.new(-5559, 314, -2840)
+            elseif SelectedNPC == "Uzoth" then SelectedNPCCframe = CFrame.new(-9785, 852, 6667)
+           end
+
+        end)
+        TeleportSection:NewToggle("Teleport NPC","Teleport NPC",function(a)
+            TweenNPC = a
+            if not TweenNPC then
+                if TweenNPCWork then
+                    TweenNPCWork:Stop()
+                end
+            end
+        end)
+
+
+
     end)
 
-
-
-
-
-
-
-
-
-
-
+end
 
 
 
@@ -1257,21 +1554,21 @@ spawn(function()
 
         if KitaNgalan then
             game:GetService("StarterGui"):SetCore("SendNotification",{
-                Title = "Mr.Rey Developer";
+                Title = "Mr.Rey Blox Script";
                 Text = "Makita Ngalan is :"..KitaNgalan..".";
                 Duration = 10;
             })
         else
             game:GetService("StarterGui"):SetCore("SendNotification",{
-                Title = "Mr.Rey Developer";
+                Title = "Mr.Rey Blox Script";
                 Text = "Makita Ngalan is :"..KitaNgalan..".";
                 Duration = 10;
             })      
         end
 
-        MobEsp = false
-        MobLocations = {game:GetService("Workspace")} --add locations of the mobs in the workspace
-        MobNames = {""} --add the names of the mobs
+        --MobEsp = false
+        --MobLocations = {game:GetService("Workspace")} --add locations of the mobs in the workspace
+        --MobNames = {""} --add the names of the mobs
         
         PlayerESP = true
         
@@ -1531,4 +1828,6 @@ end)
 end
 
 --end GNS
+
+
 
